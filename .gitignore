@@ -1,1 +1,5 @@
 Vision por computador/venv
+Vision por computador/documentacion/latexBuild
+Vision por computador/imagesLatex
+*.pdf
+*.vscode

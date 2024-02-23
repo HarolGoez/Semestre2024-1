@@ -1,0 +1,146 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage[left=3cm,right=3cm,top=3cm,bottom=3cm]{geometry}
+\usepackage{hyperref}
+
+\title{\textbf{ Clasificación de 5 diferentes tipos de telas usados en la manufactura de camisetas utilizando visión por computador y RNA }}
+\author{
+    \vspace{8cm} \\
+    \textbf{Harol Adrián Góez } \\
+    \textbf{Valentina Osorio} \\
+    \vspace{2cm} \\
+    \small Politécnico Colombiano Jaime Isaza Cadavid\\
+    \small Facultad de ingenierías\\
+    \small Medellín - Colombia
+    \date{ 22 de febrero del 2024 }
+}
+
+\begin{document}
+
+\maketitle
+\pagebreak
+
+\section{Introducción}
+
+En las últimas décadas el avance tecnológico ha sido notable y en particular, el campo de la visión por computadora 
+ha experimentado un crecimiento significativo. Este progreso ha llevado consigo un aumento en las aplicaciones prácticas
+tanto en entornos cotidianos como industriales. A medida que los dispositivos han evolucionado,
+se ha fortalecido la capacidad de procesamiento, lo que permite satisfacer las exigencias y 
+demandas de aplicaciones de visión por computadora de manera más efectiva.
+
+La inteligencia artificial, en particular el aprendizaje automático, ha emergido como una herramienta fundamental 
+para abordar una variedad de problemas complejos, ofreciendo soluciones innovadoras que benefician a la sociedad en general. 
+Entre las aplicaciones destacadas de estas tecnologías se encuentra la detección y clasificación de materiales textiles,
+un proceso crucial en la industria de la moda y la producción de prendas de vestir.
+En este contexto, la identificación precisa del tipo de tela utilizada en la fabricación de prendas, como las camisetas, 
+reviste una importancia significativa.
+
+Para llevar a cabo esta tarea, se recurre a la utilización de microscopios, 
+los cuales permiten obtener imágenes detalladas de la estructura del tejido. Esta información es fundamental 
+para determinar con certeza la composición material de la prenda, lo que a su vez influye en aspectos como la calidad,
+durabilidad y confort del producto final.
+
+El análisis de imágenes textiles mediante técnicas de visión por computadora ha demostrado ser una metodología 
+eficaz y precisa para la clasificación de telas. Este enfoque combina la capacidad de discernimiento visual 
+de los expertos humanos con la potencia computacional y la capacidad de aprendizaje de las máquinas,
+ofreciendo resultados consistentes y confiables.
+
+En resumen, la integración de tecnologías de vanguardia en la detección de telas textiles representa un avance 
+significativo en la mejora de la eficiencia y precisión en la caracterización de materiales. 
+Este enfoque no solo es la base para optimizar los procesos industriales, sino que también puede llegar a contribuir al desarrollo de productos de alta calidad
+y sostenibles, promoviendo así el progreso en diversos sectores económicos y sociales.
+
+\section{Resumen}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[scale=0.3]{../imagesLatex/microscopio.jpg} 
+    \caption{ microscopio para celular }
+    \label{fig:1}
+\end{figure}
+
+En el presente trabajo se pretende implementar un sistema de visión por computador el cual lea desde un archivo en formato jpg 
+una imagen capturada con la cámara de un celular(usando un microscopio analógico) para poder obtener de varias camisetas una
+imagen macro de la textura de la tela y de esta forma poder identificar el tipo de tela de la prenda.  La idea es poder clasificar 
+hasta 5 tipos de telas usados en camisetas y también generar un sistema que pueda ser capaz de detectarlos de acuerdo a la imagen objetivo.
+Todo este proceso se pretende realizar en el curso de visión por computador con el objetivo de aplicar transformaciones de imágenes y otros
+métodos comunes en este campo de la electrónica para poder llegar a los resultados deseados.
+
+
+\section{Solución planteada}
+
+La parte mas importante de este proyecto es poder generar una buena base de datos, para que esto sea posible,
+se necesita tomarle demasiadas fotos a camisetas que por lo general se tienen en el closet, ademas de poder clasificar
+las imágenes de acuerdo a lo que el fabricante pone en la contextura de las telas, y tener presente que hay combinaciones
+de telas en algunas prendas que son fabricadas con 2 o más tipos de materiales diferentes.
+
+\vspace{1cm}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.3]{../imagesLatex/camiseta01.jpg} 
+    \caption{Camisetas de lino.}
+    \label{fig:2}
+\end{figure}
+
+Una vez se tengan las imágenes catalogadas, se debe de construir el dataset para poder preparar la información para poder entrenar la 
+red neuronal, el dataSet debe de lucir mas o menos de la siguiente forma
+
+\vspace{1cm}
+\begin{table}[h]
+    \centering
+    \begin{tabular}{||c c c c||} 
+        \hline
+        \textbf{Nombre de la imagen} & \textbf{Resolución} & \textbf{Etiqueta} & \textbf{Tipo de tela} \\ [0.9ex] 
+        \hline\hline
+        camiseta1.jpg & 1024x768 & 0 & Algodón \\ 
+        \hline
+        camiseta2.jpg & 800x600 & 1 & Lino \\
+        \hline
+        camiseta3.jpg & 1920x1080 & 2 & Poliéster \\
+        \hline
+        camiseta4.jpg & 1024x768 & 3 & Micro fibra \\
+        \hline
+        camiseta5.jpg & 4120*2080 & 4 & Seda \\ [2ex] 
+        \hline
+    \end{tabular}
+    \caption{Base de datos inicial para empezar a construir el proyecto}
+    \label{table:1}
+\end{table}
+\vspace{1cm}
+
+La idea inicial es poder construir una base de datos de alrededor 50 archivos donde al menos se pueda tener 10 imágenes por cada tipo
+de tela para darle una buena cantidad de datos para que la red neuronal pueda quedar lo mejor entrenada posible y de esa forma
+obtener mejores resultados en la capa de salida de la RNA. Luego, se debe de hacer todo el diseño de la red neuronal, 
+teniendo presente que los parámetros de entrada(las imágenes) se deben de estandarizar en un formato pre-establecido (igualar los pixeles por fila de todas las imágenes 
+y también igualar los pixeles por columna), ademas de escoger el número de capaz de ocultas de la red neuronal y la función de activación pertinente para
+este tipo de aplicación.
+
+Cuando el proyecto ya cuente con la base de datos y el diseño de la RNA solamente haría falta hacer el despliegue final de la solución, todo esto se debe de hacer
+un aplicativo con python el cual pueda leer una o varias imágenes guardadas en una carpeta ubicada en el computador, y mostrar en pantalla la imagen inicial
+y el tipo de tela que fue detectado
+
+\section{Resultados esperados}
+
+Los resultados esperados de este proyecto se mencionan a continuación:
+
+\begin{itemize}
+    \item Exactitud: Detección de al menos 5 tipos de telas diferentes usados en la manufactura de camisetas con un porcentaje de acierto superior al 80 por ciento
+    \item Compatibilidad : El programa de detección de telas sea compatible con cualquier tipo de resolución de imagen
+    \item Rapidez : El sistema debe de hacer todo el proceso en menos de 1 segundo
+\end{itemize}
+
+
+\begin{thebibliography}{9}
+    \bibitem{webpage1}
+    apposta.com (2024). \emph{tipos de telas} Recuperado de : \url{ https://www.apposta.com/sp/guias/es/tipos-de-telas-camisas.3sp }
+    \bibitem{webpage2}
+    iniciativaTextil.com (2024). \emph{El top 5 de telas para camisas y blusas} Recuperado de : \url{ https://iniciativatextil.com/telas-para-camisas-blusas }
+    \bibitem{webpage3}
+    Hoyos Montes, Yaqueline Aide (2020). \emph{ Detección de defectos en fibras textiles utilizando algoritmos de Deep Learning } Recuperado de : \url{https://bibliotecadigital.udea.edu.co/bitstream/10495/15470/1/HoyosYaqueline_2020_DeteccionDefectosFibras.pdf}
+    \bibitem{webpage4}
+    bncvision.es (2024). \emph{ El rol de la visión artificial en la industria textil } Recuperado de :
+    \url{https://bcnvision.es/blog-vision-artificial/} \\
+    \url{el-rol-de-la-vision-artificial-en-la-industria-textil/}
+\end{thebibliography}
+
+\end{document}
